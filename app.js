@@ -1,4 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+
 import {
   getFirestore,
   collection,
@@ -27,12 +28,12 @@ const escapeHtml = (value = "") =>
   }[c]));
 
 // Hitung berapa hari VIP sudah tersimpan
-function daysStored(createdAt) {
-  if (!createdAt) return 0;
+function daysStored(savedAt) {
+  if (!savedAt) return 0;
 
-  const start = createdAt.toDate
-    ? createdAt.toDate()
-    : new Date(createdAt);
+  const start = savedAt.toDate
+    ? savedAt.toDate()
+    : new Date(savedAt);
 
   return Math.max(
     0,
@@ -49,17 +50,25 @@ function getRemainingVip(customer) {
 }
 
 function render() {
+
   const term = searchEl.value.trim().toLowerCase();
 
+  // Pencarian berdasarkan nama atau ID ML
   const filtered = customers.filter(c =>
-    String(c.name || "").toLowerCase().includes(term) ||
-    String(c.mlId || "").toLowerCase().includes(term)
+    String(c.name || "")
+      .toLowerCase()
+      .includes(term) ||
+
+    String(c.mild || "")
+      .toLowerCase()
+      .includes(term)
   );
 
   listEl.innerHTML = filtered.length
     ? filtered.map(c => {
 
         const remaining = getRemainingVip(c);
+
         const days = daysStored(c.savedAt);
 
         const status = String(c.status || "").toLowerCase();
@@ -69,16 +78,20 @@ function render() {
 
             <div class="avatar">
               ${escapeHtml(
-                String(c.name || "?").charAt(0).toUpperCase()
+                String(c.name || "?")
+                  .charAt(0)
+                  .toUpperCase()
               )}
             </div>
 
             <div class="customer-main">
 
-              <h3>${escapeHtml(c.name || "-")}</h3>
+              <h3>
+                ${escapeHtml(c.name || "-")}
+              </h3>
 
               <small>
-                ID ML: ${escapeHtml(c.mlId || "-")}
+                ID ML: ${escapeHtml(c.mild || "-")}
               </small>
 
               <div class="vip-number">
@@ -90,7 +103,11 @@ function render() {
                 Tersimpan ${days} hari •
                 ${
                   remaining > 0
-                    ? escapeHtml(status ? status.toUpperCase() : "MASIH TERSIMPAN")
+                    ? escapeHtml(
+                        status
+                          ? status.toUpperCase()
+                          : "MASIH TERSIMPAN"
+                      )
                     : "SELESAI"
                 }
               </div>
@@ -99,16 +116,18 @@ function render() {
 
           </article>
         `;
+
       }).join("")
+
     : `<div class="empty">VIP tidak ditemukan.</div>`;
 
-  // TOTAL VIP DARI SEMUA CUSTOMER
+  // TOTAL VIP
   const totalVip = customers.reduce(
     (sum, c) => sum + getRemainingVip(c),
     0
   );
 
-  // JUMLAH CUSTOMER
+  // TOTAL CUSTOMER
   const totalCustomers = customers.length;
 
   // TOTAL VIP YANG MASIH TERSIMPAN
@@ -117,13 +136,19 @@ function render() {
     0
   );
 
-  document.getElementById("totalVip").textContent = totalVip;
-  document.getElementById("totalCustomers").textContent = totalCustomers;
-  document.getElementById("savedCustomers").textContent = savedVip;
+  document.getElementById("totalVip").textContent =
+    totalVip;
+
+  document.getElementById("totalCustomers").textContent =
+    totalCustomers;
+
+  document.getElementById("savedCustomers").textContent =
+    savedVip;
 }
 
 // Ambil data realtime dari Firestore
 onSnapshot(
+
   query(
     collection(db, "customers"),
     orderBy("name")
@@ -136,7 +161,10 @@ onSnapshot(
       ...d.data()
     }));
 
-    console.log("Data Firebase:", customers);
+    console.log(
+      "Data Firebase:",
+      customers
+    );
 
     render();
 
@@ -146,7 +174,10 @@ onSnapshot(
 
   err => {
 
-    console.error("Firebase error:", err);
+    console.error(
+      "Firebase error:",
+      err
+    );
 
     listEl.innerHTML = `
       <div class="empty">
@@ -160,4 +191,7 @@ onSnapshot(
 );
 
 // Pencarian realtime
-searchEl.addEventListener("input", render);
+searchEl.addEventListener(
+  "input",
+  render
+);
