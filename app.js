@@ -43,10 +43,7 @@ function daysStored(savedAt) {
 
 // Hitung sisa VIP
 function getRemainingVip(customer) {
-  const total = Number(customer.vipTotal || 0);
-  const used = Number(customer.vipUsed || 0);
-
-  return Math.max(0, total - used);
+  return Math.max(0, Number(customer.totalVip || 0));
 }
 
 function render() {
