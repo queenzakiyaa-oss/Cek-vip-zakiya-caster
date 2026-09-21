@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin • CEK VIP ZAKIYA CASTER</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container admin-container">
+    <header class="hero compact">
+      <div class="brand-badge">ADMIN PANEL</div>
+      <h1>CEK VIP ZAKIYA CASTER</h1>
+      <p>Kelola VIP secara realtime.</p>
+    </header>
+
+    <section id="loginPanel" class="panel">
+      <h2>Login Admin</h2>
+      <input id="email" type="email" placeholder="Email admin">
+      <input id="password" type="password" placeholder="Password">
+      <button id="loginBtn" class="primary">MASUK</button>
+      <p id="loginError" class="error"></p>
+    </section>
+
+    <section id="adminPanel" hidden>
+      <div class="toolbar">
+        <button id="logoutBtn" class="secondary">Keluar</button>
+        <button id="newCustomerBtn" class="primary">+ Tambah Customer</button>
+      </div>
+
+      <form id="customerForm" class="panel" hidden>
+        <h2 id="formTitle">Tambah Customer</h2>
+        <input id="customerId" type="hidden">
+        <label>Nama VIP<input id="name" required placeholder="Contoh: Ciya"></label>
+        <label>ID Mobile Legends<input id="mlId" required placeholder="Contoh: 12345678"></label>
+        <label>VIP Awal<input id="initialVip" type="number" min="0" value="0"></label>
+        <label>Catatan<textarea id="note" placeholder="Opsional"></textarea></label>
+        <div class="form-actions">
+          <button type="button" id="cancelBtn" class="secondary">Batal</button>
+          <button type="submit" class="primary">Simpan</button>
+        </div>
+      </form>
+
+      <section>
+        <div class="section-title"><h2>Customer</h2><span id="adminLiveStatus">● REALTIME</span></div>
+        <div id="adminList" class="customer-list"></div>
+      </section>
+    </section>
+  </main>
+  <script type="module" src="admin.js"></script>
+</body>
+</html>

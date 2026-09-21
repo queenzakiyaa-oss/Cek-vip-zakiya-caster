@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CEK VIP ZAKIYA CASTER</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="decor decor-1"></div><div class="decor decor-2"></div>
+  <main class="container">
+    <header class="hero">
+      <div class="brand-badge">ZAKIYA CASTER</div>
+      <h1>CEK VIP</h1>
+      <p>Cek sisa VIP kamu secara realtime.</p>
+    </header>
+
+    <section class="stats">
+      <div class="stat-card"><span>Total VIP</span><strong id="totalVip">0</strong></div>
+      <div class="stat-card"><span>Customer</span><strong id="totalCustomers">0</strong></div>
+      <div class="stat-card"><span>Masih Tersimpan</span><strong id="savedCustomers">0</strong></div>
+    </section>
+
+    <section class="search-box">
+      <span>⌕</span>
+      <input id="searchInput" type="search" placeholder="Cari nama atau ID Mobile Legends..." autocomplete="off">
+    </section>
+
+    <section>
+      <div class="section-title"><h2>Daftar VIP</h2><span id="liveStatus">● REALTIME</span></div>
+      <div id="customerList" class="customer-list">
+        <div class="empty">Memuat data...</div>
+      </div>
+    </section>
+
+    <footer>CEK VIP ZAKIYA CASTER • Data diperbarui otomatis</footer>
+  </main>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
